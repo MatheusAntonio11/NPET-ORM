@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     PORT: int = 8000
     API_PREFIX: str = "/api/v1"
     DEBUG: bool = True
+    DATABASE_URL: str
 
     @property
     def is_production(self) -> bool:
