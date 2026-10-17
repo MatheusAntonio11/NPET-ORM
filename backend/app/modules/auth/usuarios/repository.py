@@ -1,20 +1,21 @@
-"""
-Repositório de Autenticação (camada Repository)
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-Consulta a "tabela" de credenciais. Hoje, a lista hardcoded em `fake_db.py`. É o único ponto do módulo que sabe onde/como os dados estão guardados.
-"""
-
-from app.modules.auth.usuarios.fake_db import FAKE_CREDENTIALS_DB
+from app.database.models import Usuario
 
 
 class AuthRepository:
-    def find_credential(self, email: str) -> dict[str, str] | None:
-        return next((c for c in FAKE_CREDENTIALS_DB if c["email"] == email), None)
+    def __init__(self, db: Session) -> None:
+        self._db = db
 
+    def find_credential(self, email: str) -> Usuario | None:
+        return self._db.scalar(select(Usuario).where(Usuario.email == email))
 
-# Instância única usada pela injeção de dependência do FastAPI.
-_repository = AuthRepository()
+    def email_exists(self, email: str) -> bool:
+        return self.find_credential(email) is not None
 
-
-def get_auth_repository() -> AuthRepository:
-    return _repository
+    def create(self, usuario: Usuario) -> Usuario:
+        self._db.add(usuario)
+        self._db.commit()
+        self._db.refresh(usuario)
+        return usuario
