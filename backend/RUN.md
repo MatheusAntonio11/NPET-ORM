@@ -31,6 +31,11 @@ pip install -r requirements.txt
 ```bash
 copy .env.example .env
 ```
+## Criação do banco de dados, caso não tenha
+```bash
+alembic revision --autogenerate -m "schema inicial"
+python -m alembic upgrade head 
+```
 
 ## 4. Rodar a aplicação com hot-reload:
 
