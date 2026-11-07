@@ -7,7 +7,7 @@ from app.database.schemas import LoginRequest, LoginResponse, UsuarioCreate, Usu
 from app.modules.auth.usuarios.repository import AuthRepository
 from app.modules.auth.usuarios.service import AuthService
 
-router = APIRouter(prefix="/users/auth", tags=["users-auth"])
+router = APIRouter(prefix="/auth", tags=["users-auth"])
 auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 
