@@ -63,6 +63,8 @@ class InstituicaoRegister(BaseModel):
 
 class UsuarioUpdate(BaseModel):
     nome: str | None = Field(default=None, min_length=1, max_length=45)
+    email: EmailStr | None = None
+    senha: str | None = None
     telefone: str | None = Field(default=None, max_length=20)
     cpf: CPF | None = None
 
